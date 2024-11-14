@@ -16,7 +16,7 @@ on:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
         run: terraform init -input=false -upgrade
 
   plan:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: init
     steps:
       - name: Checkout code
@@ -63,7 +63,7 @@ jobs:
         run: terraform plan -out=tfplan
 
   apply:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: plan
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
     steps:
@@ -91,7 +91,7 @@ jobs:
         run: terraform apply -auto-approve
 
   destroy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: plan
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'destroy'
     steps:
